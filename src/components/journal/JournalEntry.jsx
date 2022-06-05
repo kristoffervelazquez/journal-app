@@ -1,0 +1,31 @@
+
+
+const JournalEntry = () => {
+    return (
+        <div className="journal__entry pointer">
+            <div className="journal__entry-picture"
+                style={{
+                    backgroundSize: 'cover',
+                    backgroundImage: 'url(https://www.nationalgeographic.com.es/medio/2016/04/21/la-canica-azul_a3941285.jpg)'
+                }}
+            >
+
+            </div>
+
+            <div className="journal__entry-body">
+                <p className="journal__entry-title">
+                    Un nuevo dia
+                </p>
+                <p className="journal__entry-content">
+                    lorem ipsum dolor sit amet, consecteturdas as d.
+                </p>
+            </div>
+            <div className="journal__entry-date-box">
+                <span>Monday</span>
+                <h4>28</h4>
+            </div>
+        </div>
+    )
+}
+
+export default JournalEntry
