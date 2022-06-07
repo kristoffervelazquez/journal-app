@@ -1,23 +1,79 @@
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
+import validator from 'validator'
 import { Link } from 'react-router-dom'
-
+import { useForm } from '../../hooks/useForm'
 
 
 const RegisterScreen = () => {
 
-    
+    /*
+        {
+            name: 'Kriss',
+            email: 'correo@correo.com',
+            password: '123',
+            password2: '123'
+        }    
 
+        useForm
+
+        handleRegister
+    */
+
+
+
+    const [formValues, setValues] = useForm({
+        name: 'Kris',
+        email: 'correo@correo.com',
+        password: 'WebosConAceite1',
+        password2: 'WebosConAceite1'
+    });
+
+    const { name, email, password, password2 } = formValues;
+
+    const handleRegister = e => {
+        e.preventDefault();
+
+
+        if (isFormValid()) {
+            console.log('Success valid registration')
+        }
+
+    }
+
+    const isFormValid = () => {
+        if (name.trim().length === 0) {
+            console.log('Name is required');
+            return false;
+        } else if (!validator.isEmail(email)) {
+            console.log('Email is not valid');
+            return false;
+        } else if (!validator.isStrongPassword(password, { minSymbols: 0 })) {
+            console.log('Weak password, try with other')
+            return false;
+        } else if (password !== password2) {
+            console.log('Passwords should match each other');
+        } else {
+            return true;
+        }
+    }
 
     return (
         <>
             <h3 className="auth__title">Register</h3>
-            <form>
+            <form onSubmit={handleRegister}>
+
+                <div className="auth__alert-error">
+                    Error msg
+                </div>
+
                 <input
                     type="text"
                     placeholder="Name"
                     name="name"
                     className="auth__input"
                     autoComplete="off"
+                    value={name}
+                    onChange={setValues}
                 />
 
                 <input
@@ -26,12 +82,16 @@ const RegisterScreen = () => {
                     name="email"
                     className="auth__input"
                     autoComplete="off"
+                    value={email}
+                    onChange={setValues}
                 />
                 <input
                     type="password"
                     placeholder="Password"
                     name="password"
                     className="auth__input"
+                    value={password}
+                    onChange={setValues}
 
                 />
                 <input
@@ -39,6 +99,8 @@ const RegisterScreen = () => {
                     placeholder="Confirm password"
                     name="password2"
                     className="auth__input"
+                    value={password2}
+                    onChange={setValues}
 
                 />
 
