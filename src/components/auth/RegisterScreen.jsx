@@ -1,11 +1,17 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 
+
 const RegisterScreen = () => {
+
+    
+
+
     return (
         <>
             <h3 className="auth__title">Register</h3>
-            <form action="">
+            <form>
                 <input
                     type="text"
                     placeholder="Name"
@@ -36,7 +42,7 @@ const RegisterScreen = () => {
 
                 />
 
-                <button className="btn btn-primary pointer btn-block" type="button">Register</button>
+                <button className="btn btn-primary pointer btn-block" type="submit">Register</button>
 
 
                 <div className="auth__social-networks">

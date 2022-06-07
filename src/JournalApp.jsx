@@ -1,12 +1,12 @@
-import React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './components/store/store'
 import AppRouter from './routers/AppRouter'
 
 const JournalApp = () => {
     return (
-        <BrowserRouter>
+        <Provider store={store}>
             <AppRouter />
-        </BrowserRouter>
+        </Provider>
     )
 }
 
