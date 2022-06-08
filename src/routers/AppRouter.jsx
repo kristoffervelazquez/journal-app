@@ -10,6 +10,7 @@ import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
 
+
 const AppRouter = () => {
 
     const dispatch = useDispatch();
@@ -28,13 +29,22 @@ const AppRouter = () => {
                 setIsLoggedIn(false)
             }
 
-            setChecking(false)
+            setTimeout(() => {
+                setChecking(false)
+
+            }, 1000);
         })
-    }, [setChecking])
+    }, [])
 
     if (checking) {
         return (
-            <h1>Espere...</h1>
+            <div className="auth__main">
+                <div className="spinner">
+                    <div className="bounce1"></div>
+                    <div className="bounce2"></div>
+                    <div className="bounce3"></div>
+                </div>
+            </div>
         )
     }
 
@@ -44,11 +54,11 @@ const AppRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route  path='/' element={
+                <Route path='/' element={
                     <PrivateRoute isLoggedIn={isLoggedIn}>
                         <JournalScreen />
                     </PrivateRoute>
-                }  />
+                } />
 
                 <Route path='auth/*' element={
                     <PublicRoute isLoggedIn={isLoggedIn}>
