@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { uiSetError, uiRemoveError } from '../../actions/ui'
+import { startRegisterWithEmailPasswordName } from '../../actions/auth'
 
 
 const RegisterScreen = () => {
@@ -11,7 +12,7 @@ const RegisterScreen = () => {
     const dispatcher = useDispatch();
     const uiState = useSelector(state => state.ui);
 
-    const { msgError } = uiState;
+    const { msgError, loading } = uiState;
 
 
 
@@ -30,7 +31,7 @@ const RegisterScreen = () => {
 
 
         if (isFormValid()) {
-            console.log('Success valid registration')
+            dispatcher(startRegisterWithEmailPasswordName(email, password, name));
         }
 
     }
@@ -103,7 +104,7 @@ const RegisterScreen = () => {
 
                 />
 
-                <button className="btn btn-primary pointer btn-block mb-5" type="submit">Register</button>
+                <button disabled={loading} className="btn btn-primary pointer btn-block mb-5" type="submit">Register</button>
 
 
                 {/* <div className="auth__social-networks">

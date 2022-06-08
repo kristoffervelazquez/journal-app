@@ -1,16 +1,61 @@
-import React from 'react'
+import { getAuth } from 'firebase/auth'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+
 import JournalScreen from '../components/journal/JournalScreen'
 import AuthRouter from './AuthRouter'
-
+import { login } from '../actions/auth'
+import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoute'
 
 
 const AppRouter = () => {
+
+    const dispatch = useDispatch();
+    const [checking, setChecking] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const auth = getAuth()
+
+        auth.onAuthStateChanged((user) => {
+
+            if (user?.uid) {
+                dispatch(login(user.uid, user.displayName))
+                setIsLoggedIn(true)
+            } else {
+                setIsLoggedIn(false)
+            }
+
+            setChecking(false)
+        })
+    }, [setChecking])
+
+    if (checking) {
+        return (
+            <h1>Espere...</h1>
+        )
+    }
+
+
+
+
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<JournalScreen />} />
-                <Route path='auth/*' element={<AuthRouter />} />
+                <Route  path='/' element={
+                    <PrivateRoute isLoggedIn={isLoggedIn}>
+                        <JournalScreen />
+                    </PrivateRoute>
+                }  />
+
+                <Route path='auth/*' element={
+                    <PublicRoute isLoggedIn={isLoggedIn}>
+                        <AuthRouter />
+                    </PublicRoute>
+                } />
+
                 <Route path='*' element={<Navigate replace to="/auth/login" />} />
             </Routes>
         </BrowserRouter>

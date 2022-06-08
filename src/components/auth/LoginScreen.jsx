@@ -1,34 +1,60 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import validator from 'validator'
 import { useForm } from '../../hooks/useForm'
 import { startGoogleLogin, startLoginWithEmailPassword } from '../../actions/auth'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { uiRemoveError, uiSetError } from '../../actions/ui'
 
 
 const LoginScreen = () => {
 
     const dispatch = useDispatch();
+    const uiState = useSelector(state => state.ui)
+
+    const { msgError, loading } = uiState;
+
+
+
 
     const [formValues, handleInputChange] = useForm({
         email: 'correo@correo.com',
-        password: '123456'
+        password: 'WebosConAceite1'
     });
 
     const { email, password } = formValues;
 
     const handleLogin = e => {
         e.preventDefault();
-        dispatch(startLoginWithEmailPassword(email, password));
+        if (isFormValid()) {
+            dispatch(startLoginWithEmailPassword(email, password));
+        }
     }
 
     const handleGoogleLogin = () => {
         dispatch(startGoogleLogin())
     }
 
+    const isFormValid = () => {
+        if (!validator.isEmail(email)) {
+            dispatch(uiSetError('Email is not valid'));
+            return false;
+        } else {
+            dispatch(uiRemoveError());
+            return true
+        }
+    }
+
     return (
         <>
             <h3 className="auth__title">Login</h3>
             <form onSubmit={handleLogin}>
+
+                {msgError
+                    &&
+                    <div className="auth__alert-error">
+                        {msgError}
+                    </div>
+                }
                 <input
                     type="text"
                     placeholder="Email"
@@ -48,7 +74,7 @@ const LoginScreen = () => {
                     onChange={handleInputChange}
                 />
 
-                <button className="btn btn-primary pointer btn-block" type="submit">Login</button>
+                <button disabled={loading} className="btn btn-primary pointer btn-block" type="submit">Login</button>
 
 
                 <div className="auth__social-networks">
