@@ -2,22 +2,17 @@
 import validator from 'validator'
 import { Link } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
+import { useDispatch, useSelector } from 'react-redux'
+import { uiSetError, uiRemoveError } from '../../actions/ui'
 
 
 const RegisterScreen = () => {
 
-    /*
-        {
-            name: 'Kriss',
-            email: 'correo@correo.com',
-            password: '123',
-            password2: '123'
-        }    
+    const dispatcher = useDispatch();
+    const uiState = useSelector(state => state.ui);
 
-        useForm
+    const { msgError } = uiState;
 
-        handleRegister
-    */
 
 
 
@@ -42,17 +37,18 @@ const RegisterScreen = () => {
 
     const isFormValid = () => {
         if (name.trim().length === 0) {
-            console.log('Name is required');
+            dispatcher(uiSetError('Name is required'));
             return false;
         } else if (!validator.isEmail(email)) {
-            console.log('Email is not valid');
+            dispatcher(uiSetError('Email is not valid'));
             return false;
         } else if (!validator.isStrongPassword(password, { minSymbols: 0 })) {
-            console.log('Weak password, try with other')
+            dispatcher(uiSetError('Weak password, try with other'))
             return false;
         } else if (password !== password2) {
-            console.log('Passwords should match each other');
+            dispatcher(uiSetError('Passwords should match each other'));
         } else {
+            dispatcher(uiRemoveError());
             return true;
         }
     }
@@ -61,10 +57,13 @@ const RegisterScreen = () => {
         <>
             <h3 className="auth__title">Register</h3>
             <form onSubmit={handleRegister}>
+                {msgError
+                    &&
+                    <div className="auth__alert-error">
+                        {msgError}
+                    </div>
+                }
 
-                <div className="auth__alert-error">
-                    Error msg
-                </div>
 
                 <input
                     type="text"
@@ -104,11 +103,11 @@ const RegisterScreen = () => {
 
                 />
 
-                <button className="btn btn-primary pointer btn-block" type="submit">Register</button>
+                <button className="btn btn-primary pointer btn-block mb-5" type="submit">Register</button>
 
 
-                <div className="auth__social-networks">
-                    {/* <p>Login with social networks</p>
+                {/* <div className="auth__social-networks">
+                    <p>Login with social networks</p>
                     <div
                         className="google-btn"
                     >
@@ -118,9 +117,9 @@ const RegisterScreen = () => {
                         <p className="btn-text">
                             <b>Sign in with google</b>
                         </p>
-                    </div> */}
+                    </div>
 
-                </div>
+                </div> */}
 
 
 
