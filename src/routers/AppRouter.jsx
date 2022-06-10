@@ -8,6 +8,7 @@ import AuthRouter from './AuthRouter'
 import { login } from '../actions/auth'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
+import {startLoadingNotes } from '../actions/notes'
 
 
 
@@ -20,19 +21,23 @@ const AppRouter = () => {
     useEffect(() => {
         const auth = getAuth()
 
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged( async (user) => {
 
             if (user?.uid) {
                 dispatch(login(user.uid, user.displayName))
+                dispatch(startLoadingNotes(user.uid))
                 setIsLoggedIn(true)
             } else {
                 setIsLoggedIn(false)
-            }
+            }           
+
+            
 
             setTimeout(() => {
                 setChecking(false)
 
             }, 1000);
+
         })
     }, [])
 
