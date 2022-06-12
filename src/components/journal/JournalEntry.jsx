@@ -3,21 +3,21 @@ import { useDispatch } from 'react-redux';
 import { activeNote } from '../../actions/notes';
 
 
-const JournalEntry = (note) => {
-    
-    const { id, title, body, date, url } = note
-
+const JournalEntry = ({ id, title, body, date, url}) => {
+        
     const dispatch = useDispatch();
     const noteDate = moment(date);
 
 
-    const handleEntrieClick = (id, note) => {
-        dispatch(activeNote(id, note ))
+    const handleEntrieClick = () => {
+        dispatch(activeNote(id, {
+            date, title, body, url
+        } ))
         
     }
 
     return (
-        <div onClick={() => {handleEntrieClick(id, note)}} className="journal__entry pointer">
+        <div onClick={handleEntrieClick} className="journal__entry pointer">
             {
                 url &&
                 <div className="journal__entry-picture"

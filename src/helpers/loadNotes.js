@@ -3,10 +3,8 @@ import { getDocs, collection } from "firebase/firestore"
 
 export const loadNotes = async (uid) => {
     const notesSnap = await getDocs(collection(db, `${uid}/journal/notes/`));
-    const notes = []
+    const notes = [];
     
-
-    // console.log(notesSnap.docs[0]._document.data.value.mapValue.fields)
 
     notesSnap.forEach(snapHijo => {
         notes.push({
@@ -14,8 +12,7 @@ export const loadNotes = async (uid) => {
             ...snapHijo.data()
         })
        
-    })
-    
-    
+    });    
+
     return notes;
 }
