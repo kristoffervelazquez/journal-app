@@ -32,6 +32,20 @@
     
 }
 
+.btn-danger{
+    background-color: red;
+    border-radius: 2px;
+
+    &:disabled{
+        background-color: lighten($color: red, $amount: 15)
+    }
+
+    &:hover{
+        background-color: darken($color: red, $amount: 15)
+    }
+    
+}
+
 .btn-block{
     width: 100%;
 }

@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, si
 import { googleAuthProvider } from "../firebase/firebaseConfig"
 import { types } from "../types/types"
 import { uiStartLoading, uiFinishLoading } from "./ui"
+import { noteLogout } from './notes'
 
 export const login = (uid, displayName) => ({
     type: types.login,
@@ -90,5 +91,6 @@ export const startLogout = () => {
         const auth = getAuth();
         await auth.signOut();
         dispatch(logout());
+        dispatch(noteLogout());
     }
 }
