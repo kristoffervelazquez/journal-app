@@ -1,9 +1,8 @@
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import Swal from "sweetalert2";
 import { activeNote, startDeleting } from "../../actions/notes";
-import { useForm } from "../../hooks/useForm";
 import NotesAppBar from "./NotesAppBar"
 
 
@@ -12,28 +11,41 @@ const NoteScreen = () => {
     const dispatch = useDispatch();
 
     const { active: note } = useSelector(state => state.notes);
-    const [formValues, handleInputChange, reset] = useForm(note);
-    const { body, title, id } = formValues;
 
-    const activeId = useRef(note);
+    const[title, setTitle] = useState(note.title);
+    const[body, setBody] = useState(note.body);
+    const[id, setId] = useState(note.id);
+    const[url, setUrl] = useState(note.url);
+    const[date, setDate] = useState(note.date);
+
+
+
+
+    const activeId = useRef( note.id );
+
 
     useEffect(() => {
-
-        if (note.id !== activeId.current) {
-            reset(note);
+        
+        if ( note !== activeId.current ) {
+            setBody(note.body)
+            setId(note.id)
+            setTitle(note.title)
+            setUrl(note.url)
+            setDate(note.date)
+            
             activeId.current = note.id
         }
-
-    }, [reset, note]);
-
-
+    }, [note])
 
     useEffect(() => {
+        
+        dispatch( activeNote( id, {title, body, id, url, date}));
+
+    }, [title, body, id, url, dispatch])
 
 
-        dispatch(activeNote(formValues.id, { ...formValues }));
 
-    }, [formValues, dispatch]);
+    
 
     const handleDelete = () => {
         Swal.fire({
@@ -59,13 +71,13 @@ const NoteScreen = () => {
             <NotesAppBar />
 
             <div className="notes__content">
-                <input type="text" placeholder="Some awesome title" name="title" className="notes__title-input" value={title} onChange={handleInputChange} />
+                <input type="text" placeholder="Some awesome title" name="title" className="notes__title-input" value={title} onChange={(e) => {setTitle(e.target.value)}} />
 
-                <textarea placeholder="What happened today" name="body" className="notes__textarea" value={body} onChange={handleInputChange}></textarea>
+                <textarea placeholder="What happened today" name="body" className="notes__textarea" value={body} onChange={(e) => {setBody(e.target.value)}}></textarea>
                 {
-                    note.url &&
+                    url &&
                     <div className="notes__image">
-                        <img src={note.url} alt="imagen" />
+                        <img src={url} alt="imagen" />
 
                     </div>
                 }
