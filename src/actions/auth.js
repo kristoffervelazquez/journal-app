@@ -1,10 +1,12 @@
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.css'
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth"
-import { googleAuthProvider } from "../firebase/firebaseConfig"
+import { googleAuthProvider, facebookAuthProvider } from "../firebase/firebaseConfig"
 import { types } from "../types/types"
 import { uiStartLoading, uiFinishLoading } from "./ui"
 import { noteLogout } from './notes'
+
+
 
 export const login = (uid, displayName) => ({
     type: types.login,
@@ -78,6 +80,23 @@ export const startGoogleLogin = () => {
             console.error(e.code);
         }
 
+
+    }
+}
+
+export const startFacebookLogin = () => {
+    return () => {
+        try {
+            const auth = getAuth();
+            signInWithPopup(auth, facebookAuthProvider)
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: e.code
+            })
+            console.error(e.code);
+        }
 
     }
 }

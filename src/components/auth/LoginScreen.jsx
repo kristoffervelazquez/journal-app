@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import validator from 'validator'
 import { useForm } from '../../hooks/useForm'
-import { startGoogleLogin, startLoginWithEmailPassword } from '../../actions/auth'
+import { startFacebookLogin, startGoogleLogin, startLoginWithEmailPassword } from '../../actions/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { uiRemoveError, uiSetError } from '../../actions/ui'
 
@@ -32,6 +32,10 @@ const LoginScreen = () => {
 
     const handleGoogleLogin = () => {
         dispatch(startGoogleLogin())
+    }
+
+    const handleFacebookLogin = () => {
+        dispatch(startFacebookLogin());
     }
 
     const isFormValid = () => {
@@ -78,7 +82,10 @@ const LoginScreen = () => {
 
 
                 <div className="auth__social-networks">
-                    <p>Login with social networks</p>
+                    <p className="mb-1">Login with social networks</p>
+                    <button onClick={handleFacebookLogin} class="loginBtn loginBtn--facebook">
+                        Login with Facebook
+                    </button>
                     <div onClick={handleGoogleLogin}
                         className="google-btn"
                     >
