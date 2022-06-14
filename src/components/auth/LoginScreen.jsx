@@ -17,8 +17,8 @@ const LoginScreen = () => {
 
 
     const [formValues, handleInputChange] = useForm({
-        email: 'correo@correo.com',
-        password: 'WebosConAceite1'
+        email: '',
+        password: ''
     });
 
     const { email, password } = formValues;

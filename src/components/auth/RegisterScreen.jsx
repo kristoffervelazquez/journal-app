@@ -18,10 +18,10 @@ const RegisterScreen = () => {
 
 
     const [formValues, setValues] = useForm({
-        name: 'Kris',
-        email: 'correo@correo.com',
-        password: 'WebosConAceite1',
-        password2: 'WebosConAceite1'
+        name: '',
+        email: '',
+        password: '',
+        password2: ''
     });
 
     const { name, email, password, password2 } = formValues;
