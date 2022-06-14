@@ -83,7 +83,7 @@ const LoginScreen = () => {
 
                 <div className="auth__social-networks">
                     <p className="mb-1">Login with social networks</p>
-                    <button onClick={handleFacebookLogin} class="loginBtn loginBtn--facebook">
+                    <button onClick={handleFacebookLogin} className="loginBtn loginBtn--facebook">
                         Login with Facebook
                     </button>
                     <div onClick={handleGoogleLogin}
